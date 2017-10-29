@@ -1,0 +1,18 @@
+﻿@model HostelModel.HotelWorkOrderModel
+@addTagHelper "WebDirectiveExpand.Controls.GridBuilder,WebDirectiveExpand"
+@{
+    Layout = "_MainPage";
+    ViewData["Title"] = "酒店用工管理";
+}
+<crud-form asp-for="@Model" asp-url="@Url.Content("~/HotelOrder")" asp-icon="mif-users place-right" asp-title="酒店用工列表" ng-controller="mainController" asp-form-double="false">
+
+</crud-form>
+@section Scripts{
+
+    <script type="text/javascript">
+        angular.module("app", ["ngBaseGrid","ngSelect"]).controller("mainController", function ($scope, BaseGrid) {
+            $scope.Model = BaseGrid;
+        })
+        $("#hotel_order").addClass("active");
+    </script>
+}

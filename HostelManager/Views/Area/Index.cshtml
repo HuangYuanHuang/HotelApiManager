@@ -1,0 +1,18 @@
+﻿@model HostelModel.AreaModel
+@addTagHelper "WebDirectiveExpand.Controls.GridBuilder,WebDirectiveExpand"
+@{
+    Layout = "_MainPage";
+    ViewData["Title"] = "区域管理";
+}
+<crud-form asp-for="@Model" asp-url="@Url.Content("~/Area")" asp-icon="mif-users place-right" asp-title="区域列表" ng-controller="mainController" asp-form-double="false">
+
+</crud-form>
+@section Scripts{
+
+    <script type="text/javascript">
+        angular.module("app", ["ngBaseGrid"]).controller("mainController", function ($scope, BaseGrid) {
+            $scope.Model = BaseGrid;
+        })
+        $("#config").addClass("active");
+    </script>
+}

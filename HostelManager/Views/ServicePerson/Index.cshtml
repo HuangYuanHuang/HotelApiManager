@@ -1,0 +1,18 @@
+﻿@model HostelModel.ServicePersonModel
+@addTagHelper "WebDirectiveExpand.Controls.GridBuilder,WebDirectiveExpand"
+@{
+    Layout = "_MainPage";
+    ViewData["Title"] = "服务人员管理";
+}
+<crud-form asp-for="@Model" asp-url="@Url.Content("~/ServicePerson")" asp-icon="mif-users place-right" asp-title="服务人员列表" ng-controller="mainController" asp-form-double="false">
+
+</crud-form>
+@section Scripts{
+
+    <script type="text/javascript">
+        angular.module("app", ["ngBaseGrid"]).controller("mainController", function ($scope, BaseGrid) {
+            $scope.Model = BaseGrid;
+        })
+        $("#service_person").addClass("active");
+    </script>
+}

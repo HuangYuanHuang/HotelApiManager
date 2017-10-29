@@ -1,0 +1,108 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <ApplicationIcon />
+    <OutputType>Exe</OutputType>
+    <StartupObject />
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp2.0\HostelManager.xml</DocumentationFile>
+    <NoWarn>1701;1702;1705;1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Views\Admin\**" />
+    <Content Remove="Views\Admin\**" />
+    <EmbeddedResource Remove="Views\Admin\**" />
+    <None Remove="Views\Admin\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HostelModel\HostelModel.csproj" />
+    <ProjectReference Include="..\HostelService\HostelService.csproj" />
+    <ProjectReference Include="..\WebDirectiveExpand\WebDirectiveExpand.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\app\angualr-base-grid.js" />
+    <None Include="wwwroot\app\angular-select-directive.js" />
+    <None Include="wwwroot\js\Beyond\beyond.js" />
+    <None Include="wwwroot\js\Beyond\beyond.min.js" />
+    <None Include="wwwroot\js\Beyond\bootbox\bootbox.js" />
+    <None Include="wwwroot\js\Beyond\bootstrap.min.js" />
+    <None Include="wwwroot\js\Beyond\charts\chartjs\Chart.js" />
+    <None Include="wwwroot\js\Beyond\charts\chartjs\chartjs-init.js" />
+    <None Include="wwwroot\js\Beyond\charts\easypiechart\easypiechart-init.js" />
+    <None Include="wwwroot\js\Beyond\charts\easypiechart\jquery.easypiechart.js" />
+    <None Include="wwwroot\js\Beyond\charts\flot\flot-init.js" />
+    <None Include="wwwroot\js\Beyond\charts\flot\jquery.flot.crosshair.js" />
+    <None Include="wwwroot\js\Beyond\charts\flot\jquery.flot.js" />
+    <None Include="wwwroot\js\Beyond\charts\flot\jquery.flot.orderBars.js" />
+    <None Include="wwwroot\js\Beyond\charts\flot\jquery.flot.pie.js" />
+    <None Include="wwwroot\js\Beyond\charts\flot\jquery.flot.resize.js" />
+    <None Include="wwwroot\js\Beyond\charts\flot\jquery.flot.selection.js" />
+    <None Include="wwwroot\js\Beyond\charts\flot\jquery.flot.stack.js" />
+    <None Include="wwwroot\js\Beyond\charts\flot\jquery.flot.time.js" />
+    <None Include="wwwroot\js\Beyond\charts\flot\jquery.flot.tooltip.js" />
+    <None Include="wwwroot\js\Beyond\charts\morris\morris-init.js" />
+    <None Include="wwwroot\js\Beyond\charts\morris\morris.js" />
+    <None Include="wwwroot\js\Beyond\charts\morris\raphael-2.0.2.min.js" />
+    <None Include="wwwroot\js\Beyond\charts\sparkline\jquery.sparkline.js" />
+    <None Include="wwwroot\js\Beyond\charts\sparkline\sparkline-init.js" />
+    <None Include="wwwroot\js\Beyond\colorpicker\jquery.minicolors.js" />
+    <None Include="wwwroot\js\Beyond\datatable\assets\swf\copy_csv_xls_pdf.swf" />
+    <None Include="wwwroot\js\Beyond\datatable\datatables-init.js" />
+    <None Include="wwwroot\js\Beyond\datatable\dataTables.bootstrap.min.js" />
+    <None Include="wwwroot\js\Beyond\datatable\dataTables.tableTools.min.js" />
+    <None Include="wwwroot\js\Beyond\datatable\jquery.dataTables.min.js" />
+    <None Include="wwwroot\js\Beyond\datatable\ZeroClipboard.js" />
+    <None Include="wwwroot\js\Beyond\datetime\bootstrap-datepicker.js" />
+    <None Include="wwwroot\js\Beyond\datetime\bootstrap-timepicker.js" />
+    <None Include="wwwroot\js\Beyond\datetime\daterangepicker.js" />
+    <None Include="wwwroot\js\Beyond\datetime\locales\bootstrap-datepicker.zh-CN.min.js" />
+    <None Include="wwwroot\js\Beyond\datetime\moment.js" />
+    <None Include="wwwroot\js\Beyond\editors\summernote\summernote.js" />
+    <None Include="wwwroot\js\Beyond\editors\wysiwyg\bootstrap-wysiwyg.js" />
+    <None Include="wwwroot\js\Beyond\editors\wysiwyg\jquery.hotkeys.js" />
+    <None Include="wwwroot\js\Beyond\editors\wysiwyg\prettify.js" />
+    <None Include="wwwroot\js\Beyond\fuelux\spinner\fuelux.spinner.min.js" />
+    <None Include="wwwroot\js\Beyond\fuelux\treeview\tree-custom.min.js" />
+    <None Include="wwwroot\js\Beyond\fuelux\treeview\treeview-init.js" />
+    <None Include="wwwroot\js\Beyond\fuelux\wizard\wizard-custom.js" />
+    <None Include="wwwroot\js\Beyond\fullcalendar\fullcalendar.js" />
+    <None Include="wwwroot\js\Beyond\jquery-2.0.3.min.js" />
+    <None Include="wwwroot\js\Beyond\jquery-ui-1.10.4.custom.js" />
+    <None Include="wwwroot\js\Beyond\knob\jquery.knob.js" />
+    <None Include="wwwroot\js\Beyond\nestable\jquery.nestable.min.js" />
+    <None Include="wwwroot\js\Beyond\select2\select2.js" />
+    <None Include="wwwroot\js\Beyond\skins.min.js" />
+    <None Include="wwwroot\js\Beyond\slider\jQRangeSlider\jQAllRangeSliders-withRuler-min.js" />
+    <None Include="wwwroot\js\Beyond\slider\jquery.nouislider.js" />
+    <None Include="wwwroot\js\Beyond\swf\copy_csv_xls_pdf.swf" />
+    <None Include="wwwroot\js\Beyond\tagsinput\bootstrap-tagsinput.js" />
+    <None Include="wwwroot\js\Beyond\textarea\jquery.autosize.js" />
+    <None Include="wwwroot\js\Beyond\toastr\toastr.js" />
+    <None Include="wwwroot\js\Beyond\validation\bootstrapValidator.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Hotel\" />
+    <Folder Include="Views\Accout\" />
+    <Folder Include="Views\Schedule\" />
+    <Folder Include="Views\WorkType\" />
+  </ItemGroup>
+
+</Project>
