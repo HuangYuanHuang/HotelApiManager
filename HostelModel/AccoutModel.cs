@@ -41,6 +41,8 @@ namespace HostelModel
         [DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
 
+        [Display(Name = "账号等级", Order = 4)]
+        public int? Level { get; set; } = 1;
         [MaxLength(50)]
         [JsonIgnore]
         public string Pwd { get; set; }

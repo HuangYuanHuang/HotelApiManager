@@ -5,7 +5,7 @@ using System.Text;
 
 namespace HostelModel
 {
-    [Table("T_PersonEmploy")]
+    [Table("T_Hostel_PersonEmploy")]
     public class PersonEmployModel: BaseModel
     {
         public int PersonId { get; set; }     

@@ -59,7 +59,7 @@ namespace HostelModel
         }
 
         /// <summary>
-        /// 状态（待审核,通过,未通过）
+        /// 状态（1-待处理,2-预录用,3-录用，4-拒绝）
         /// </summary>
         [Display(Name = "审核状态", Order = 4)]
         [SelectControl(Type = ItemDataType.StaticItems, ItemsName = "StatusNodes")]

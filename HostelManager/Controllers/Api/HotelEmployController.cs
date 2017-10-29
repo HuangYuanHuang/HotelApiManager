@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using HostelModel;
 using HostelManager.Models;
+using MessageWeb.Config;
+using Microsoft.Extensions.Options;
+using HostelManager.Common;
 
 namespace HostelManager.Controllers.Api
 {
@@ -16,6 +19,15 @@ namespace HostelManager.Controllers.Api
     [Route("api/HotelEmploy")]
     public class HotelEmployController : BaseApiController
     {
+        private readonly IOptions<JpushAppSettings> options;
+        /// <summary>
+        /// 构造函数 通过IOC获取配置节点
+        /// </summary>
+        /// <param name="_options"></param>
+        public HotelEmployController(IOptions<JpushAppSettings> _options)
+        {
+            this.options = _options;
+        }
 
         /// <summary>
         /// 获取酒店录用人员列表
@@ -36,17 +48,18 @@ namespace HostelManager.Controllers.Api
 
 
         /// <summary>
-        /// 酒店终止用户工作并评价
+        /// 酒店终止用户工作并评价 并发送短信通知
         /// </summary>
         /// <param name="id"></param>
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public object Put(string id, [FromBody]HotelComment model)
+        public async Task<object> Put(string id, [FromBody]HotelComment model)
         {
             var obj = hostelContext.PersonEmploys.FirstOrDefault(d => d.GUID == id);
             if (obj != null)
             {
+
                 obj.Status = 0;
                 obj.Evaluate = model.Evaluate;
                 obj.Comment = model.Comment;
@@ -54,6 +67,16 @@ namespace HostelManager.Controllers.Api
             try
             {
                 hostelContext.SaveChanges();
+                NoticeCommon notice = new NoticeCommon(options);
+
+
+                await notice.SendNotice(new MessageWeb.Models.NoticeModel()
+                {
+                    Type = "解聘",
+                    Phone = hostelContext.ServicePersons.FirstOrDefault(d => d.Id == obj.PersonId)?.Phone,
+                    Hotel = hostelContext.HotelOrders.FirstOrDefault(d => d.Id == obj.HotelOrderId)?.Hotel?.Name??"酒店"
+
+                });
                 return new { state = true, message = "操作成功" };
             }
             catch (Exception)
