@@ -63,12 +63,11 @@ namespace HostelManager.Controllers.Api
         /// <param name="model"></param>
         // POST: api/PersonApply
         [HttpPost]
-        public object Post([FromBody]PersonOrderModel model)
+        public object Post([FromBody]PersonApplyModel model)
         {
             try
             {
-                ModelState.Remove("GUID");
-                model.GUID = Guid.NewGuid().ToString("N");
+             
                 if (!ModelState.IsValid)
                 {
                     return new { state = false, message = "输入验证不合法" };
@@ -85,9 +84,14 @@ namespace HostelManager.Controllers.Api
                 {
                     return new { state = false, message = "用户善于工作未终止，请终止后再来申请新工作" };
                 }
-
-                ContextService<PersonOrderModel> service = new ContextService<PersonOrderModel>(hostelContext.PersonOrders, hostelContext);
-                service.AddEntity(model);
+                hostelContext.PersonOrders.Add(new PersonOrderModel()
+                {
+                    OrderId = model.OrderId,
+                    PersonId = model.PersonId,
+                    Status = 1,
+                    Mark = model.Mark
+                });
+             
 
                 return new { state = true, message = "操作成功" };
             }
