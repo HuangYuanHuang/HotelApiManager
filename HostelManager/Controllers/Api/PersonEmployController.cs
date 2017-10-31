@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using HostelModel;
 using HostelManager.Models;
-
+using Microsoft.EntityFrameworkCore;
 namespace HostelManager.Controllers.Api
 {
     /// <summary>
@@ -24,9 +24,34 @@ namespace HostelManager.Controllers.Api
         /// <param name="id">用户GUID</param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public IEnumerable<PersonEmployModel> Get(string id)
+        public IEnumerable<object> Get(string id)
         {
-            return hostelContext.PersonEmploys.Where(d => d.Person.GUID == id).OrderByDescending(d => d.CreateTime);
+            return hostelContext.PersonEmploys.Where(d => d.Person.GUID == id).OrderByDescending(d => d.CreateTime).Select(d => new
+            {
+                PersonId = d.PersonId,
+                GUID = d.GUID,
+                CreateTime = d.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                Order = new
+                {
+                    HotelName = d.HoterlOrder.Hotel.Name,
+                    DepartName = d.HoterlOrder.Department.DepartmentName,
+                    ScheduleName = d.HoterlOrder.Schedule.Name,
+                    WorkTypeName = d.HoterlOrder.WorkType.Name,
+                    Num = d.HoterlOrder.Num,
+
+                    Start = d.HoterlOrder.Start.ToString("yyyy-MM-dd HH:mm:ss"),
+                    End = d.HoterlOrder.End.ToString("yyyy-MM-dd HH:mm:ss"),
+                    CreateTime=d.HoterlOrder.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                    Billing = d.HoterlOrder.Billing,
+                },
+                HotelOrderId = d.HotelOrderId,
+                Status = d.Status,
+
+                Evaluate = d.Evaluate,
+                HotelEvaluate = d.HotelEvaluate,
+                Comment = d.Comment,
+                HotelComment = d.HotelComment,
+            });
         }
 
 
