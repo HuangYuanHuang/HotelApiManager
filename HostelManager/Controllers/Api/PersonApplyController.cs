@@ -91,7 +91,7 @@ namespace HostelManager.Controllers.Api
                     Status = 1,
                     Mark = model.Mark
                 });
-             
+                hostelContext.SaveChanges();
 
                 return new { state = true, message = "操作成功" };
             }

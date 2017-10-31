@@ -42,7 +42,21 @@ namespace HostelManager.Controllers.Api
                   (key, values) => new
                   {
                       DepartmentName = key,
-                      Employs = values.OrderByDescending(d => d.CreateTime)
+                      Employs = values.OrderByDescending(d => d.CreateTime).Select(d => new
+                      {
+                          Person = d.Person,
+                          GUID = d.GUID,
+                          CreateTime = d.CreateTime,
+                         
+                          HotelOrderId=d.HotelOrderId,
+                          Status=d.Status,
+                          
+                          Evaluate= d.Evaluate,
+                          HotelEvaluate= d.HotelEvaluate,
+                          Comment=d.Comment,
+                          HotelComment= d.HotelComment,
+                       
+                      }),
                   });
         }
 
@@ -74,7 +88,7 @@ namespace HostelManager.Controllers.Api
                 {
                     Type = "解聘",
                     Phone = hostelContext.ServicePersons.FirstOrDefault(d => d.Id == obj.PersonId)?.Phone,
-                    Hotel = hostelContext.HotelOrders.FirstOrDefault(d => d.Id == obj.HotelOrderId)?.Hotel?.Name??"酒店"
+                    Hotel = hostelContext.HotelOrders.FirstOrDefault(d => d.Id == obj.HotelOrderId)?.Hotel?.Name ?? "酒店"
 
                 });
                 return new { state = true, message = "操作成功" };
