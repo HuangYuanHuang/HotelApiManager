@@ -38,10 +38,12 @@ namespace HostelManager.Controllers.Api
         [HttpGet("{id}")]
         public IEnumerable<object> Get(string id)
         {
-            return hostelContext.PersonEmploys.Where(d => d.HoterlOrder.Hotel.GUID == id).GroupBy(d => d.HoterlOrder.Department.DepartmentName,
+            return hostelContext.PersonEmploys.Where(d => d.HoterlOrder.Hotel.GUID == id).GroupBy(d =>new  { d.HotelOrderId,d.HoterlOrder.Department.DepartmentName,d.HoterlOrder.WorkType.Name,d.HoterlOrder.CreateTime},
                   (key, values) => new
                   {
-                      DepartmentName = key,
+                      DepartmentName=key.DepartmentName,
+                      WorkTypeName=key.Name,
+                      CreateTime=key.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
                       Employs = values.OrderByDescending(d => d.CreateTime).Select(d => new
                       {
                           Person = d.Person,
@@ -57,7 +59,7 @@ namespace HostelManager.Controllers.Api
                           HotelComment= d.HotelComment,
                        
                       }),
-                  });
+                  }).OrderByDescending(d=>d.CreateTime);
         }
 
 

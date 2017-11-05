@@ -82,7 +82,7 @@ namespace HostelManager.Controllers.Api
                 var count = hostelContext.PersonEmploys.Count(d => d.PersonId == model.PersonId && d.Status == 1);
                 if (count > 0)
                 {
-                    return new { state = false, message = "用户善于工作未终止，请终止后再来申请新工作" };
+                    return new { state = false, message = "用户尚有工作未终止，请终止后再来申请新工作" };
                 }
                 hostelContext.PersonOrders.Add(new PersonOrderModel()
                 {
