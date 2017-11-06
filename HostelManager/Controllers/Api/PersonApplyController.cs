@@ -67,22 +67,18 @@ namespace HostelManager.Controllers.Api
         {
             try
             {
-             
-                if (!ModelState.IsValid)
-                {
-                    return new { state = false, message = "输入验证不合法" };
-                }
+
 
                 var result = hostelContext.ServicePersons.FirstOrDefault(d => d.Id == model.PersonId);
-                if (result == null || result.Health == null || result.ICardBack == null || result.ICardPositive == null)
+                if (result == null || result.Health == null || result.ICardBack == null || result.ICardPositive == null || result.RealName == null)
                 {
-                    return new { state = false, message = "用户资料未完整,请用户完善资料" };
+                    return new { state = false, message = "用户资料未完整,请用户完善资料", code = 4001 };
                 }
                 //用户是否有其他工作未结束
                 var count = hostelContext.PersonEmploys.Count(d => d.PersonId == model.PersonId && d.Status == 1);
                 if (count > 0)
                 {
-                    return new { state = false, message = "用户尚有工作未终止，请终止后再来申请新工作" };
+                    return new { state = false, message = "用户尚有工作未终止，请终止后再来申请新工作", code = 4002 };
                 }
                 hostelContext.PersonOrders.Add(new PersonOrderModel()
                 {
@@ -97,7 +93,7 @@ namespace HostelManager.Controllers.Api
             }
             catch
             {
-                return new { state = false, message = "数据操作服务器错误，请确认数据是否完整" };
+                return new { state = false, message = "数据操作服务器错误，请确认数据是否完整", code = 5000 };
 
 
             }

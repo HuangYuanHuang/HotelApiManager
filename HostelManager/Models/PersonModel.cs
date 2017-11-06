@@ -23,7 +23,7 @@ namespace HostelManager.Models
     public class UploadImageModel
     {
         /// <summary>
-        /// ICardPositive ICardBack Health
+        /// ICardPositive ICardBack Health,Icon
         /// </summary>
         public string type { get; set; }
 

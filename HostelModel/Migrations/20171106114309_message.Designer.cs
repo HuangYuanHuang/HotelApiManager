@@ -11,9 +11,10 @@ using System;
 namespace HostelModel.Migrations
 {
     [DbContext(typeof(HostelContext))]
-    partial class HostelContextModelSnapshot : ModelSnapshot
+    [Migration("20171106114309_message")]
+    partial class message
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -245,7 +246,7 @@ namespace HostelModel.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("T_Hostel_Message");
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("HostelModel.PersonEmployModel", b =>

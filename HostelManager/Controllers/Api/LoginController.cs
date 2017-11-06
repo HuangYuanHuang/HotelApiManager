@@ -73,7 +73,13 @@ namespace HostelManager.Controllers.Api
                     var persons = hostelContext.ServicePersons.FirstOrDefault(d => d.Phone == model.Phone);
                     if (persons == null)
                     {
-                        return new { state = false, message = "该手机号码未注册,请注册后登陆" };
+                        persons = new HostelModel.ServicePersonModel()
+                        {
+                            Phone = model.Phone,
+
+                        };
+                        hostelContext.ServicePersons.Add(persons);
+
                     }
                     string token = Guid.NewGuid().ToString("N");
                     var loginResult = login(model, token, persons.GUID);

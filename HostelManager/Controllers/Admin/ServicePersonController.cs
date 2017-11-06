@@ -116,9 +116,9 @@ namespace HostelManager.Controllers.Admin
             var result = hostelContext.ServicePersons.FirstOrDefault(d => d.GUID == model.GUID);
             if (result == null)
             {
-                return Json(new { state = false, message = "未找到该人员信息，信息错误" });
+                return Json(new { state = false, message = "未找到该人员信息，信息错误", code = 40004 });
             }
-            string base64 =(model.data);
+            string base64 = (model.data);
             string fileName = Path.Combine($"upload/{model.GUID}");
             try
             {
@@ -139,6 +139,10 @@ namespace HostelManager.Controllers.Admin
                 {
                     result.ICardBack = fileName;
                 }
+                else if (model.type == "Icon")
+                {
+                    result.Icon = fileName;
+                }
                 else
                 {
                     result.Health = fileName;
@@ -150,7 +154,7 @@ namespace HostelManager.Controllers.Admin
 
                 return Json(new { state = false, message = ex.Message });
             }
-          
+
             return Json(new { state = true, message = "图片上传成功" });
         }
     }

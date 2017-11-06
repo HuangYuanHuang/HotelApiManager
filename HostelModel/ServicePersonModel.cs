@@ -19,7 +19,7 @@ namespace HostelModel
         }
 
 
-        [Required]
+      
         [Display(Name = "真实姓名", Order = 0)]
         [MaxLength(50)]
         public string RealName { set; get; }
