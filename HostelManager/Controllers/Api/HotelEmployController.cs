@@ -82,9 +82,10 @@ namespace HostelManager.Controllers.Api
             }
             try
             {
+                hostelContext.PersonOrders.RemoveRange(hostelContext.PersonOrders.Where(d=>d.PersonId==obj.PersonId));
                 hostelContext.SaveChanges();
                 NoticeCommon notice = new NoticeCommon(options);
-
+               
 
                 await notice.SendNotice(new MessageWeb.Models.NoticeModel()
                 {

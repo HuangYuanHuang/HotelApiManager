@@ -73,6 +73,7 @@ namespace HostelManager.Controllers.Api
             }
             try
             {
+                hostelContext.PersonOrders.RemoveRange(hostelContext.PersonOrders.Where(d => d.PersonId == obj.PersonId));
                 hostelContext.SaveChanges();
                 return new { state = true, message = "操作成功" };
             }

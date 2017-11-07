@@ -63,7 +63,7 @@ namespace HostelManager.Controllers.Api
 
             foreach (var item in list)
             {
-                item.EmployNum = hostelContext.PersonOrders.Count(d => d.OrderId == item.Id && d.Status == 3);
+                item.EmployNum = hostelContext.PersonEmploys.Count(d => d.HotelOrderId == item.Id && d.Status == 1);
                 item.AppliedNum = hostelContext.PersonOrders.Count(d => d.OrderId == item.Id);
                 item.NewApply = hostelContext.PersonOrders.Count(d => d.OrderId == item.Id && d.CreateTime > pre);
             }
@@ -160,6 +160,11 @@ namespace HostelManager.Controllers.Api
                         Phone = hostelContext.ServicePersons.FirstOrDefault(d => d.Id == model.PersonId)?.Phone,
                         Title = $"{orderDatail?.HotelName}-{orderDatail?.DepartName}-{orderDatail?.WorkTypeName}"
                     });
+                }
+                //对于录用状态删除其余申请记录
+                if (obj.Status == 3)
+                {
+                    hostelContext.PersonOrders.RemoveRange(hostelContext.PersonOrders.Where(d => d.Id != obj.Id && d.PersonId == obj.PersonId));
                 }
 
 

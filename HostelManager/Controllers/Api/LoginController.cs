@@ -76,7 +76,7 @@ namespace HostelManager.Controllers.Api
                         persons = new HostelModel.ServicePersonModel()
                         {
                             Phone = model.Phone,
-
+                            Icon = "upload/user_defalut.png",
                         };
                         hostelContext.ServicePersons.Add(persons);
 

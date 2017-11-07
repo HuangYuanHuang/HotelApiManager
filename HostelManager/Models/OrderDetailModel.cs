@@ -23,7 +23,10 @@ namespace HostelManager.Models
 
         public string ApplyTime { get; set; }
 
-
+        /// <summary>
+        /// 人员评分
+        /// </summary>
+        public float Evaluate { set; get; }
 
         public ServicePersonModel Person { get; set; }
     }

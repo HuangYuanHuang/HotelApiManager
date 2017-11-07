@@ -36,6 +36,7 @@ namespace HostelModel
         [DataType(DataType.Password)]
         [MaxLength(250)]
         [TableIgnore]
+        [JsonIgnore]
         public string Pwd { get; set; }
 
 
