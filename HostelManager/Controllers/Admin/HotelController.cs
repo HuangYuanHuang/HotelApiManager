@@ -30,27 +30,7 @@ namespace HostelManager.Controllers.Admin
             return Json(list);
         }
 
-        [HttpPost]
-        public JsonResult Login(LoginHotelModel login)
-        {
-            var model = hostelContext.Accouts.FirstOrDefault(d => d.LoginName == login.username);
-            if (model == null || login.password != "123")
-            {
-                return Json(new { state = false, message = "账号密码错误!" });
-            }
-            try
-            {
-                var hotelModel = hostelContext.Hotels.Include(d => d.Area).FirstOrDefault(d => d.Id == model.HotelId);
-                return Json(new { state = true, message = "登录成功", token = Guid.NewGuid().ToString("N"), data = hotelModel });
-            }
-            catch (Exception)
-            {
 
-                return Json(new { state = false, message = "系统错误，未找到该账户管理的酒店信息，请联系管理员处理" });
-            }
-
-
-        }
 
 
         [HttpPost]

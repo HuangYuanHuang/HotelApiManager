@@ -44,8 +44,8 @@ namespace HostelModel
         [Display(Name = "账号等级", Order = 4)]
         public int? Level { get; set; } = 1;
         [MaxLength(50)]
-        [JsonIgnore]
-        public string Pwd { get; set; }
+        [JsonIgnore] 
+        public string Pwd { get; set; } = "8B58887685DBE827"; //默认密码admin
 
         /// <summary>
         /// 最后登录时间

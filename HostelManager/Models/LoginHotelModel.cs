@@ -11,4 +11,11 @@ namespace HostelManager.Models
 
         public string password { get; set; }
     }
+
+    public class UpdateHotelPwdModel
+    {
+        public string oldPassword;
+        public string newPassword;
+             
+    }
 }

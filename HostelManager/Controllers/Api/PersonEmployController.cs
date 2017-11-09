@@ -41,7 +41,7 @@ namespace HostelManager.Controllers.Api
 
                     Start = d.HoterlOrder.Start.ToString("yyyy-MM-dd HH:mm:ss"),
                     End = d.HoterlOrder.End.ToString("yyyy-MM-dd HH:mm:ss"),
-                    CreateTime=d.HoterlOrder.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                    CreateTime = d.HoterlOrder.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
                     Billing = d.HoterlOrder.Billing,
                 },
                 HotelOrderId = d.HotelOrderId,
@@ -74,6 +74,22 @@ namespace HostelManager.Controllers.Api
             try
             {
                 hostelContext.PersonOrders.RemoveRange(hostelContext.PersonOrders.Where(d => d.PersonId == obj.PersonId));
+
+                var person = hostelContext.ServicePersons.FirstOrDefault(d => d.Id == obj.PersonId);
+                var order = hostelContext.HotelOrders.Where(d => d.Id == obj.HotelOrderId).Select(d => new
+                {
+                    HotelName = d.Hotel.Name,
+                    HotelGUID = d.Hotel.GUID,
+                    HotelDepartment = d.Department.DepartmentName,
+                    HotelWork = d.WorkType.Name
+                }).FirstOrDefault();
+                hostelContext.Messages.Add(new HostelModel.MessageModel()
+                {
+                    Context = $"{person.RealName}与{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}《终止了》您酒店录用的{order?.HotelDepartment}-{order?.HotelWork}的工作！",
+                    From = person.GUID,
+                    To = order?.HotelGUID,
+                    Type = "工作终止"
+                });
                 hostelContext.SaveChanges();
                 return new { state = true, message = "操作成功" };
             }

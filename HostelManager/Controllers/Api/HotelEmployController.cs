@@ -9,6 +9,7 @@ using HostelManager.Models;
 using MessageWeb.Config;
 using Microsoft.Extensions.Options;
 using HostelManager.Common;
+using Microsoft.EntityFrameworkCore;
 
 namespace HostelManager.Controllers.Api
 {
@@ -38,28 +39,28 @@ namespace HostelManager.Controllers.Api
         [HttpGet("{id}")]
         public IEnumerable<object> Get(string id)
         {
-            return hostelContext.PersonEmploys.Where(d => d.HoterlOrder.Hotel.GUID == id).GroupBy(d =>new  { d.HotelOrderId,d.HoterlOrder.Department.DepartmentName,d.HoterlOrder.WorkType.Name,d.HoterlOrder.CreateTime},
+            return hostelContext.PersonEmploys.Where(d => d.HoterlOrder.Hotel.GUID == id).GroupBy(d => new { d.HotelOrderId, d.HoterlOrder.Department.DepartmentName, d.HoterlOrder.WorkType.Name, d.HoterlOrder.CreateTime },
                   (key, values) => new
                   {
-                      DepartmentName=key.DepartmentName,
-                      WorkTypeName=key.Name,
-                      CreateTime=key.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                      DepartmentName = key.DepartmentName,
+                      WorkTypeName = key.Name,
+                      CreateTime = key.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
                       Employs = values.OrderByDescending(d => d.CreateTime).Select(d => new
                       {
                           Person = d.Person,
                           GUID = d.GUID,
                           CreateTime = d.CreateTime,
-                         
-                          HotelOrderId=d.HotelOrderId,
-                          Status=d.Status,
-                          
-                          Evaluate= d.Evaluate,
-                          HotelEvaluate= d.HotelEvaluate,
-                          Comment=d.Comment,
-                          HotelComment= d.HotelComment,
-                       
+
+                          HotelOrderId = d.HotelOrderId,
+                          Status = d.Status,
+
+                          Evaluate = d.Evaluate,
+                          HotelEvaluate = d.HotelEvaluate,
+                          Comment = d.Comment,
+                          HotelComment = d.HotelComment,
+
                       }),
-                  }).OrderByDescending(d=>d.CreateTime);
+                  }).OrderByDescending(d => d.CreateTime);
         }
 
 
@@ -82,10 +83,26 @@ namespace HostelManager.Controllers.Api
             }
             try
             {
-                hostelContext.PersonOrders.RemoveRange(hostelContext.PersonOrders.Where(d=>d.PersonId==obj.PersonId));
+                hostelContext.PersonOrders.RemoveRange(hostelContext.PersonOrders.Where(d => d.PersonId == obj.PersonId));
+                var person = hostelContext.ServicePersons.FirstOrDefault(d => d.Id == obj.PersonId);
+                var order = hostelContext.HotelOrders.Where(d => d.Id == obj.HotelOrderId).Select(d => new
+                {
+                    HotelName = d.Hotel.Name,
+                    HotelGUID = d.Hotel.GUID,
+                    HotelDepartment = d.Department.DepartmentName,
+                    HotelWork = d.WorkType.Name
+                }).FirstOrDefault();
+                hostelContext.Messages.Add(new HostelModel.MessageModel()
+                {
+                    Context = $"{order.HotelName}与{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}《终止了》您的{order.HotelDepartment}-{order.HotelWork}的工作！",
+                    From = order.HotelGUID,
+                    To = person?.GUID,
+                    Type = "工作终止"
+                });
+
                 hostelContext.SaveChanges();
                 NoticeCommon notice = new NoticeCommon(options);
-               
+
 
                 await notice.SendNotice(new MessageWeb.Models.NoticeModel()
                 {

@@ -154,9 +154,28 @@ namespace HostelManager.Controllers.Api
                     NoticeCommon notice = new NoticeCommon(options);
 
                     var orderDatail = hostelContext.HotelOrders.Include(d => d.Hotel).Include(d => d.Department).Include(d => d.WorkType).FirstOrDefault(d => d.Id == model.OrderId);
+
+                    var person = hostelContext.ServicePersons.FirstOrDefault(d => d.Id == obj.PersonId);
+               
+                    var order = hostelContext.HotelOrders.Where(d => d.Id == obj.OrderId).Select(d => new
+                    {
+                        HotelName = d.Hotel.Name,
+                        HotelGUID = d.Hotel.GUID,
+                        HotelDepartment = d.Department.DepartmentName,
+                        HotelWork = d.WorkType.Name
+                    }).FirstOrDefault();
+                    string statsStr = obj.Status == 2 ? "预录用" : "录用";
+                    hostelContext.Messages.Add(new HostelModel.MessageModel()
+                    {
+                        Context = $"{order?.HotelName}与{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}《{statsStr}》您的{order?.HotelDepartment}-{order?.HotelWork}工作！",
+                        From = order?.HotelGUID,
+                        To = person?.GUID,
+                        Type = "工作状态变更"
+                    });
+
                     await notice.SendNotice(new MessageWeb.Models.NoticeModel()
                     {
-                        Type = obj.Status == 2 ? "预录用" : "录用",
+                        Type = statsStr,
                         Phone = hostelContext.ServicePersons.FirstOrDefault(d => d.Id == model.PersonId)?.Phone,
                         Title = $"{orderDatail?.HotelName}-{orderDatail?.DepartName}-{orderDatail?.WorkTypeName}"
                     });
