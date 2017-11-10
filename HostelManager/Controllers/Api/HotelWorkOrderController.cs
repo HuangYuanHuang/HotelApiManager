@@ -63,7 +63,7 @@ namespace HostelManager.Controllers.Api
 
             foreach (var item in list)
             {
-                item.EmployNum = hostelContext.PersonEmploys.Count(d => d.HotelOrderId == item.Id && d.Status == 1);
+                item.EmployNum = hostelContext.PersonEmploys.Count(d => d.HotelOrderId == item.Id);
                 item.AppliedNum = hostelContext.PersonOrders.Count(d => d.OrderId == item.Id);
                 item.NewApply = hostelContext.PersonOrders.Count(d => d.OrderId == item.Id && d.CreateTime > pre);
             }

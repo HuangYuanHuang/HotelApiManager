@@ -60,17 +60,29 @@ namespace HostelManager.Controllers.Api
 
             foreach (var item in res)
             {
+
+                item.EmployNum = hostelContext.PersonEmploys.Count(d => d.HotelOrderId == item.Id); //录用人数包含用户已经终止的用工
                 item.AppliedNum = hostelContext.PersonOrders.Count(d => d.OrderId == item.Id);
             }
-            var result = res.GroupBy(d => new { d.HotelId, d.HotelName, d.AreaId, d.AreaName, d.HotelGUID }, (key, values) => new
+            var result = res.GroupBy(d => new { d.HotelId, d.HotelName, d.AreaId, d.AreaName, d.HotelGUID }, (key, values) => new AreaWorkModel
             {
+
                 HotelGUID = key.HotelGUID,
                 HotelId = key.HotelId,
                 HotelName = key.HotelName,
                 AreaId = key.AreaId,
                 AreaName = key.AreaName,
                 Works = values.OrderByDescending(d => d.CreateTime)
-            });
+            }).ToList();
+
+            foreach (var item in result)
+            {
+                var count = hostelContext.PersonEmploys.Count(d => d.HoterlOrder.HotelId == item.HotelId && d.HotelEvaluate != null);
+                if (count > 0)
+                {
+                    item.HotelEvaluate = (float)(hostelContext.PersonEmploys.Where(d => d.HoterlOrder.HotelId == item.HotelId).Sum(d => d.HotelEvaluate) * 1.0 / count);
+                }
+            }
             return result;
         }
 

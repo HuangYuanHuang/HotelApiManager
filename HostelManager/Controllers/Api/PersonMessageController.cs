@@ -12,8 +12,6 @@ namespace HostelManager.Controllers.Api
     [Route("api/PersonMessage")]
     public class PersonMessageController : BaseApiController
     {
-
-
         /// <summary>
         /// 获取用户的所有消息
         /// </summary>

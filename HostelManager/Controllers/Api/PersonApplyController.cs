@@ -52,6 +52,7 @@ namespace HostelManager.Controllers.Api
 
             list.ForEach(d =>
             {
+               
                 d.TotalApply = hostelContext.PersonOrders.Count(f => f.OrderId == d.TotalApply);
             });
             return list;

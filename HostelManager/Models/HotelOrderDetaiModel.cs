@@ -82,5 +82,7 @@ namespace HostelManager.Models
 
         public int AreaId { get; set; }
 
+        public float HotelEvaluate { get; set; }
+
     }
 }

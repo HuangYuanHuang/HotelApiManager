@@ -33,7 +33,7 @@ namespace HostelManager.Controllers.Api
             try
             {
                 var hotelModel = hostelContext.Hotels.Include(d => d.Area).FirstOrDefault(d => d.Id == model.HotelId);
-                return new { state = true, message = "登录成功", token = Guid.NewGuid().ToString("N"), data = hotelModel };
+                return new { state = true, message = "登录成功", token = Guid.NewGuid().ToString("N"), data = hotelModel, AccoutGUID = model.GUID };
             }
             catch (Exception)
             {
@@ -67,10 +67,10 @@ namespace HostelManager.Controllers.Api
                 res.Pwd = newPassword;
                 hostelContext.Messages.Add(new HostelModel.MessageModel()
                 {
-                    Context="用户通过APP修改密码",
-                    From="System",
-                    To=id,
-                    Type="系统消息"
+                    Context = "用户通过APP修改密码",
+                    From = "System",
+                    To = id,
+                    Type = "系统消息"
                 });
                 hostelContext.SaveChanges();
                 return new { state = true, message = "密码修改成功" };

@@ -25,16 +25,15 @@ namespace HostelManager.Controllers.Api
             {
                 Person = d.Person,
                 Status = d.Status,
-
                 ApplyTime = d.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
                 GUID = d.GUID
             }).ToList();
             foreach (var item in list)
             {
-                var count = hostelContext.PersonEmploys.Count(d => d.Evaluate != null);
+                var count = hostelContext.PersonEmploys.Count(d => d.PersonId == item.Person.Id && d.Evaluate != null);
                 if (count > 0)
                 {
-                    item.Evaluate = (float)(hostelContext.PersonEmploys.Sum(d => d.Evaluate) * 1.0 / count);
+                    item.Evaluate = (float)(hostelContext.PersonEmploys.Where(d => d.PersonId == item.Person.Id).Sum(d => d.Evaluate) * 1.0 / count);
                 }
 
             }
