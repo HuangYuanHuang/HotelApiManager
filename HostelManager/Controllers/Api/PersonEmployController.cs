@@ -85,7 +85,7 @@ namespace HostelManager.Controllers.Api
                 }).FirstOrDefault();
                 hostelContext.Messages.Add(new HostelModel.MessageModel()
                 {
-                    Context = $"{person.RealName}与{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}《终止了》您酒店录用的{order?.HotelDepartment}-{order?.HotelWork}的工作！",
+                    Context = $"{person.RealName} 于 {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} 终止 了您酒店录用的{order?.HotelDepartment}-{order?.HotelWork}的工作！",
                     From = person.GUID,
                     To = order?.HotelGUID,
                     Type = "工作终止"

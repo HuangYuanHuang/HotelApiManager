@@ -167,7 +167,7 @@ namespace HostelManager.Controllers.Api
                     string statsStr = obj.Status == 2 ? "预录用" : "录用";
                     hostelContext.Messages.Add(new HostelModel.MessageModel()
                     {
-                        Context = $"{order?.HotelName}与{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}《{statsStr}》您的{order?.HotelDepartment}-{order?.HotelWork}工作！",
+                        Context = $"{order?.HotelName} 于 {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} {statsStr} 您的{order?.HotelDepartment}-{order?.HotelWork}工作！",
                         From = order?.HotelGUID,
                         To = person?.GUID,
                         Type = "工作状态变更"

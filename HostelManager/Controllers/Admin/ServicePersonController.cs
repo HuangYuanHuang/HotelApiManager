@@ -10,7 +10,6 @@ using HostelManager.Models;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace HostelManager.Controllers.Admin
 {

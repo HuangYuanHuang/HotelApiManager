@@ -97,7 +97,7 @@ namespace HostelManager.Controllers.Api
                 }).FirstOrDefault();
                 hostelContext.Messages.Add(new HostelModel.MessageModel()
                 {
-                    Context = $"{result.RealName}与{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}《申请》了您酒店发布的{order?.HotelDepartment}-{order?.HotelWork}的工作，请及时处理！",
+                    Context = $"{result.RealName} 于 {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} 申请 了您酒店发布的{order?.HotelDepartment}-{order?.HotelWork}的工作，请及时处理！",
                     From = result.GUID,
                     To = order?.HotelGUID,
                     Type = "工作申请"
