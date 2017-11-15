@@ -10,7 +10,7 @@ namespace HostelManager.Controllers.Api
     [Produces("application/json")]
     [Route("api/PersonEvaluate")]
     public class PersonEvaluateController : BaseApiController
-    {      
+    {
         /// <summary>
         /// 获取用户被评论详情
         /// </summary>
@@ -37,10 +37,10 @@ namespace HostelManager.Controllers.Api
                 Total = total,
                 Average = average,
                 ApplyNum = list.Count(),
-                Details = list.OrderByDescending(d => d.CommentTime)
+                Details = list.Where(d => d.Evaluate != null).OrderByDescending(d => d.CommentTime)
             };
         }
-        
-      
+
+
     }
 }

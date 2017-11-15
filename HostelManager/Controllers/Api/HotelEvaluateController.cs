@@ -38,7 +38,7 @@ namespace HostelManager.Controllers.Api
                 Total = total,
                 Average = average,
                 OrderNum = list.Count(),
-                Details = list.OrderByDescending(d => d.CommentTime)
+                Details = list.Where(d => d.HotelEvaluate != null).OrderByDescending(d => d.CommentTime)
             };
 
         }

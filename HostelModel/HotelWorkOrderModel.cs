@@ -136,10 +136,13 @@ namespace HostelModel
             {
                 if (Status == 1)
                     return "审核通过";
-                if (Status == 2)
+                else if (Status == 2)
                     return "审核未通过";
+                else if (Status == 3)
+                    return "上线";
+                else if (Status == 4)
+                    return "下线";
                 return "待审核";
-
             }
             set { }
         }
@@ -164,7 +167,9 @@ namespace HostelModel
                 {
                     new SelectListItem(){ Selected=true,Text="待审核",Value="0"},
                     new SelectListItem(){ Text="审核通过",Value="1"},
-                    new SelectListItem(){ Text="审核未通过",Value="2"}
+                    new SelectListItem(){ Text="审核未通过",Value="2"},
+                    new SelectListItem(){ Text="上线",Value="3"},
+                    new SelectListItem(){ Text="下线",Value="4"}
 
                 };
             }

@@ -56,8 +56,12 @@ namespace HostelManager.Models
             {
                 if (Status == 1)
                     return "审核通过";
-                if (Status == 2)
+                else if (Status == 2)
                     return "审核未通过";
+                else if (Status == 3)
+                    return "上线";
+                else if (Status == 4)
+                    return "下线";
                 return "待审核";
 
             }

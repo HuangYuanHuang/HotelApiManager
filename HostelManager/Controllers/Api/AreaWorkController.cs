@@ -33,7 +33,8 @@ namespace HostelManager.Controllers.Api
             }
             else
             {
-                list = hostelContext.HotelOrders.Where(d => d.Status == 1);
+                //对于用户只展示酒店上线的订单
+                list = hostelContext.HotelOrders.Where(d => d.Status == 3);
             }
             var res = list.Select(d => new HotelAreaOrderModel()
             {
