@@ -30,7 +30,8 @@ namespace HostelManager.Controllers.Api
             {
                 ApplyTime = d.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
                 Status = d.Status,
-                TotalApply = d.HotelOrder.Id,
+                OrderId=d.HotelOrder.Id,
+              
                 Order = new
                 {
                     Id = d.HotelOrder.Id,
@@ -52,8 +53,8 @@ namespace HostelManager.Controllers.Api
 
             list.ForEach(d =>
             {
-               
-                d.TotalApply = hostelContext.PersonOrders.Count(f => f.OrderId == d.TotalApply);
+                d.EmployNum = hostelContext.PersonEmploys.Count(f => f.HotelOrderId == d.OrderId && f.Status == 1);
+                d.TotalApply = hostelContext.PersonOrders.Count(f => f.OrderId == d.OrderId);
             });
             return list;
         }

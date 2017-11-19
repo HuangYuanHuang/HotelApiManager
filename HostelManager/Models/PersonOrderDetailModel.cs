@@ -19,8 +19,9 @@ namespace HostelManager.Models
         public int TotalApply { get; set; }
         public String ApplyTime { get; set; }
 
+        public int EmployNum { get; set; }
 
-
+        public int OrderId { get; set; }
         public object Order { get; set; }
 
     }
