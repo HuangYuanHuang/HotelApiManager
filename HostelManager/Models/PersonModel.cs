@@ -5,6 +5,19 @@ using System.Threading.Tasks;
 
 namespace HostelManager.Models
 {
+    public class UpdatePersonModel
+    {
+        public string RealName { get; set; }
+
+        public string Sex { get; set; }
+
+        public string IdentityCard { get; set; }
+
+
+        public string Phone { get; set; }
+
+        public string Address { get; set; }
+    }
     public class LoginPersonModel
     {
         public string phone { get; set; }

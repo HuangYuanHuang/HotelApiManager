@@ -62,7 +62,7 @@ namespace HostelManager.Controllers.Api
             foreach (var item in res)
             {
 
-                item.EmployNum = hostelContext.PersonEmploys.Count(d => d.HotelOrderId == item.Id); //录用人数包含用户已经终止的用工
+                item.EmployNum = hostelContext.PersonEmploys.Count(d => d.HotelOrderId == item.Id && d.Status == 1); //录用人数包含用户已经终止的用工
                 item.AppliedNum = hostelContext.PersonOrders.Count(d => d.OrderId == item.Id);
             }
             var result = res.GroupBy(d => new { d.HotelId, d.HotelName, d.AreaId, d.AreaName, d.HotelGUID }, (key, values) => new AreaWorkModel

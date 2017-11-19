@@ -69,8 +69,13 @@ namespace HostelManager
             app.UseStaticFiles(new StaticFileOptions()
             {
                 FileProvider = new PhysicalFileProvider(
-            Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot", "upload")),
-                RequestPath = new PathString("/upload")
+                 Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot", "upload")), RequestPath = new PathString("/upload")
+            });
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(
+                Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot", "app-update")),
+                RequestPath = new PathString("/www")
             });
             app.UseStaticFiles(new StaticFileOptions()
             {

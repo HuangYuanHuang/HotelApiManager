@@ -105,4 +105,13 @@
     <Folder Include="Views\WorkType\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\app-update\hotel\readme.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\app-update\job\readme.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

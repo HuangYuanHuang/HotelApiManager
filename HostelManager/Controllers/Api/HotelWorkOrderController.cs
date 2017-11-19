@@ -63,7 +63,7 @@ namespace HostelManager.Controllers.Api
 
             foreach (var item in list)
             {
-                item.EmployNum = hostelContext.PersonEmploys.Count(d => d.HotelOrderId == item.Id);
+                item.EmployNum = hostelContext.PersonEmploys.Count(d => d.HotelOrderId == item.Id && d.Status == 1);
                 item.AppliedNum = hostelContext.PersonOrders.Count(d => d.OrderId == item.Id);
                 item.NewApply = hostelContext.PersonOrders.Count(d => d.OrderId == item.Id && d.CreateTime > pre);
             }
@@ -156,7 +156,7 @@ namespace HostelManager.Controllers.Api
                     var orderDatail = hostelContext.HotelOrders.Include(d => d.Hotel).Include(d => d.Department).Include(d => d.WorkType).FirstOrDefault(d => d.Id == model.OrderId);
 
                     var person = hostelContext.ServicePersons.FirstOrDefault(d => d.Id == obj.PersonId);
-               
+
                     var order = hostelContext.HotelOrders.Where(d => d.Id == obj.OrderId).Select(d => new
                     {
                         HotelName = d.Hotel.Name,
