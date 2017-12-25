@@ -8,6 +8,9 @@ namespace HostelManager.Models
 {
     public class HotelOrderDetaiModel
     {
+        public int Min { get; set; }
+
+        public int Max { get; set; }
         public string DepartMentName { get; set; }
 
         public string HotelName { get; set; }

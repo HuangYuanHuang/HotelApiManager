@@ -54,6 +54,8 @@ namespace HostelManager.Controllers.Api
                 Id = d.Id,
                 Mark = d.Mark,
                 Num = d.Num,
+                Min=d.Min??0,
+                Max=d.Max??0,
                 ScheduleName = d.Schedule.Name,
                 Start = d.Start.ToString("yyyy-MM-dd HH:mm:ss"),
                 CreateTime = d.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
