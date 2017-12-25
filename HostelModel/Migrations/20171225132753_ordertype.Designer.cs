@@ -11,9 +11,10 @@ using System;
 namespace HostelModel.Migrations
 {
     [DbContext(typeof(HostelContext))]
-    partial class HostelContextModelSnapshot : ModelSnapshot
+    [Migration("20171225132753_ordertype")]
+    partial class ordertype
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -292,8 +293,6 @@ namespace HostelModel.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("ApplyNum");
 
                     b.Property<DateTime>("CreateTime");
 

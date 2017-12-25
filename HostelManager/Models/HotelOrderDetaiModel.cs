@@ -37,7 +37,7 @@ namespace HostelManager.Models
         public string CreateTime { get; set; }
 
         /// <summary>
-        /// 已申请人数
+        /// 已申请数量（人数|房间数量）
         /// </summary>
         public int AppliedNum { get; set; }
 

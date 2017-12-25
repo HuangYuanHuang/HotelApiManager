@@ -77,6 +77,9 @@ namespace HostelModel
         [DataType(DataType.MultilineText)]
         public string Mark { get; set; }
 
+
+        [Display(Name ="申请数量",Order =10)]
+        public int? ApplyNum { get; set; }
         [NotMapped]
         [JsonIgnore]
         public List<SelectListItem> StatusNodes

@@ -90,7 +90,7 @@ namespace HostelModel
         public virtual WorkTypeModel WorkType { get; set; }
 
         [Required]
-        [Display(Name = "人数", Order = 5)]
+        [Display(Name = "人数|房间数", Order = 5)]
 
         public int Num { get; set; }
 
@@ -179,5 +179,17 @@ namespace HostelModel
         [Display(Name = "审核意见", Order = 11)]
         [DataType(DataType.MultilineText)]
         public string Examine { get; set; }
+
+        [Display(Name = "单人下限", Order = 12)]
+        public int? Min { set; get; }
+
+        [Display(Name = "单人上限", Order = 13)]
+        public int? Max { set; get; }
+
+        /// <summary>
+        /// 订单类型 不为null表示抢单类型
+        /// </summary>
+        [Display(Name = "订单类型", Order = 14)]
+        public int? OrderType { get; set; } = 0;
     }
 }

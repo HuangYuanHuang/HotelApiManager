@@ -23,5 +23,11 @@ namespace HostelManager.Models
         /// </summary>
         [Required]
         public DateTime PreTime { get; set; }
+
+
+        /// <summary>
+        /// 订单类型（默认0=长期用工，1-短期用工（用工抢单类型））
+        /// </summary>
+        public int OrderType { get; set; } = 0;
     }
 }

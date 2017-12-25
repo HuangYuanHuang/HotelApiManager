@@ -19,25 +19,25 @@ namespace HostelManager.Models
         public int HotelId { get; set; }
 
         /// <summary>
-        /// 部门ID
+        /// 部门ID 默认客房部
         /// </summary>
-        [Required]
-        public int DepartID { get; set; }
+
+        public int DepartID { get; set; } = 2;
 
         /// <summary>
-        /// 排班ID
+        /// 排班ID 默认白班
         /// </summary>
-        [Required]
-        public int ScheduleId { get; set; }
+
+        public int ScheduleId { get; set; } = 1;
 
         /// <summary>
-        /// 工种ID
+        /// 工种ID 默认客服打扫
         /// </summary>
-        [Required]
-        public int WorkTypeId { get; set; }
+
+        public int WorkTypeId { get; set; } = 1;
 
         /// <summary>
-        /// 需求人数
+        /// 需求数量（人数|房间数）
         /// </summary>
         [Required]
         public int Num { get; set; }
@@ -49,9 +49,8 @@ namespace HostelManager.Models
         public DateTime Start { get; set; }
 
         /// <summary>
-        /// 结束时间
-        /// </summary>
-        [Required]
+        /// 结束时间 短期用工结束时间不需要传 自动开始时间加一天
+        /// </summary>       
         public DateTime End { get; set; }
 
         /// <summary>
@@ -64,5 +63,21 @@ namespace HostelManager.Models
         /// 需求备注
         /// </summary>
         public string Mark { get; set; } = "无";
+
+        /// <summary>
+        /// 订单类型 0-长期用工（默认值） 1-短期用工（酒店房间抢单用工）
+        /// </summary>
+        public int OrderType { get; set; } = 0;
+
+
+        /// <summary>
+        /// 单人上限
+        /// </summary>
+        public int Min { get; set; } = 20;
+
+        /// <summary>
+        /// 单人下限
+        /// </summary>
+        public int Max { get; set; } = 5;
     }
 }

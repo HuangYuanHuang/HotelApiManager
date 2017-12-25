@@ -39,7 +39,7 @@ namespace HostelManager.Controllers.Api
         public IEnumerable<HotelOrderDetaiModel> Get([FromQuery]HotelOrderQueryModel model)
         {
             DateTime pre = model.PreTime;
-            var list = hostelContext.HotelOrders.Where(d => d.Hotel.GUID == model.HotelGUID).OrderByDescending(d => d.CreateTime).Select(d => new HotelOrderDetaiModel()
+            var list = hostelContext.HotelOrders.Where(d => d.Hotel.GUID == model.HotelGUID && d.OrderType == model.OrderType).OrderByDescending(d => d.CreateTime).Select(d => new HotelOrderDetaiModel()
             {
                 DepartID = d.DepartID,
                 ScheduleId = d.ScheduleId,
@@ -60,13 +60,28 @@ namespace HostelManager.Controllers.Api
                 WorkTypeName = d.WorkType.Name
 
             }).ToList();
-
-            foreach (var item in list)
+            if (model.OrderType == 0)
             {
-                item.EmployNum = hostelContext.PersonEmploys.Count(d => d.HotelOrderId == item.Id && d.Status == 1);
-                item.AppliedNum = hostelContext.PersonOrders.Count(d => d.OrderId == item.Id && d.Status == 1);
-                item.NewApply = hostelContext.PersonOrders.Count(d => d.OrderId == item.Id && d.CreateTime > pre);
+                foreach (var item in list)
+                {
+                    item.EmployNum = hostelContext.PersonEmploys.Count(d => d.HotelOrderId == item.Id && d.Status == 1);
+                    item.AppliedNum = hostelContext.PersonOrders.Count(d => d.OrderId == item.Id && d.Status == 1);
+                    item.NewApply = hostelContext.PersonOrders.Count(d => d.OrderId == item.Id && d.CreateTime > pre);
+                }
             }
+            else
+            {
+                foreach (var item in list)
+                {
+                    //历史订单自动下线显示
+                    if (DateTime.Parse(item.End) < DateTime.Now)
+                    {
+                        item.Status = 4;
+                    }
+                    item.AppliedNum= hostelContext.PersonOrders.Where(d => d.OrderId == item.Id && d.Status == 1).Sum(d=>d.ApplyNum)??0;
+                }
+            }
+
             return list;
         }
 
@@ -97,17 +112,20 @@ namespace HostelManager.Controllers.Api
                         return new { state = false, message = "该酒店账号为普通会员，只能免费发布两条用工信息" };
                     }
                 }
-
+                var endTime = model.Start.AddDays(1);
                 hostelContext.HotelOrders.Add(new HotelWorkOrderModel()
                 {
                     Billing = model.Billing,
                     DepartID = model.DepartID,
-                    End = model.End,
+                    End = model.OrderType == 1 ? endTime : model.End,
                     HotelId = model.HotelId,
                     Num = model.Num,
                     Mark = model.Mark,
+                    Min= model.OrderType == 1 ? model.Min:0,
+                    Max= model.OrderType == 1 ? model.Max:0,
                     ScheduleId = model.ScheduleId,
                     Start = model.Start,
+                    OrderType=model.OrderType,
                     WorkTypeId = model.WorkTypeId
                 });
                 hostelContext.SaveChanges();

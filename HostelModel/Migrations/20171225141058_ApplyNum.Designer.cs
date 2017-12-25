@@ -11,9 +11,10 @@ using System;
 namespace HostelModel.Migrations
 {
     [DbContext(typeof(HostelContext))]
-    partial class HostelContextModelSnapshot : ModelSnapshot
+    [Migration("20171225141058_ApplyNum")]
+    partial class ApplyNum
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
