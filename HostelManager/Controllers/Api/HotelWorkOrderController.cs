@@ -80,7 +80,7 @@ namespace HostelManager.Controllers.Api
                     {
                         item.Status = 4;
                     }
-                    item.AppliedNum= hostelContext.PersonOrders.Where(d => d.OrderId == item.Id && d.Status == 1).Sum(d=>d.ApplyNum)??0;
+                    item.AppliedNum= hostelContext.PersonOrders.Where(d => d.OrderId == item.Id ).Sum(d=>d.ApplyNum)??0;
                 }
             }
 

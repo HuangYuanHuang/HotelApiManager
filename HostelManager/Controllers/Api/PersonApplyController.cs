@@ -30,8 +30,8 @@ namespace HostelManager.Controllers.Api
             {
                 ApplyTime = d.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
                 Status = d.Status,
-                OrderId=d.HotelOrder.Id,
-              
+                OrderId = d.HotelOrder.Id,
+
                 Order = new
                 {
                     Id = d.HotelOrder.Id,
@@ -69,7 +69,16 @@ namespace HostelManager.Controllers.Api
         {
             try
             {
+                var order = hostelContext.HotelOrders.Where(d => d.Id == model.OrderId).Select(d => new
+                {
+                    HotelName = d.Hotel.Name,
+                    HotelGUID = d.Hotel.GUID,
+                    HotelDepartment = d.Department.DepartmentName,
+                    HotelWork = d.WorkType.Name,
+                    Num = d.Num,
 
+                    OrderType = d.OrderType,
+                }).FirstOrDefault();
 
                 var result = hostelContext.ServicePersons.FirstOrDefault(d => d.Id == model.PersonId);
                 if (result == null || result.Health == null || result.ICardBack == null || result.ICardPositive == null || result.RealName == null)
@@ -78,24 +87,32 @@ namespace HostelManager.Controllers.Api
                 }
                 //用户是否有其他工作未结束
                 var count = hostelContext.PersonEmploys.Count(d => d.PersonId == model.PersonId && d.Status == 1);
-                if (count > 0)
+                if (count > 0 && order.OrderType != 1)
                 {
                     return new { state = false, message = "用户尚有工作未终止，请终止后再来申请新工作", code = 4002 };
+                }
+                if (order.OrderType == 1)
+                {
+                    int applyNum = hostelContext.PersonOrders.Where(d => d.OrderId == model.OrderId).Sum(d => d.ApplyNum) ?? 0;
+                    if (applyNum + model.Num > order.Num)
+                    {
+                        model.Num = order.Num - applyNum;
+                    }
+                    if (model.Num < 5)
+                    {
+                        return new { state = false, message = "房间数不足", code = 4005 };
+
+                    }
                 }
                 hostelContext.PersonOrders.Add(new PersonOrderModel()
                 {
                     OrderId = model.OrderId,
                     PersonId = model.PersonId,
                     Status = 1,
+                    ApplyNum = model.Num,
                     Mark = model.Mark
                 });
-                var order = hostelContext.HotelOrders.Where(d => d.Id == model.OrderId).Select(d => new
-                {
-                    HotelName = d.Hotel.Name,
-                    HotelGUID = d.Hotel.GUID,
-                    HotelDepartment = d.Department.DepartmentName,
-                    HotelWork = d.WorkType.Name
-                }).FirstOrDefault();
+
                 hostelContext.Messages.Add(new HostelModel.MessageModel()
                 {
                     Context = $"{result.RealName} 于 {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} 申请 了您酒店发布的{order?.HotelDepartment}-{order?.HotelWork}的工作，请及时处理！",

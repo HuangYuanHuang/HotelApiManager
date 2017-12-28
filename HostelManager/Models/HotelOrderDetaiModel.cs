@@ -91,5 +91,6 @@ namespace HostelManager.Models
 
         public float HotelEvaluate { get; set; }
 
+      
     }
 }

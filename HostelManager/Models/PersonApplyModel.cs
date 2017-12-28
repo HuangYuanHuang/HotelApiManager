@@ -14,6 +14,10 @@ namespace HostelManager.Models
 
         public int OrderId { get; set; }
 
+        /// <summary>
+        /// 申请房间数量
+        /// </summary>
+        public int Num { get; set; }
         public string Mark { get; set; } = "无";
     }
 }
