@@ -26,12 +26,12 @@ namespace HostelManager.Controllers.Api
             IQueryable<HotelWorkOrderModel> list = null;
             if (id != null && id != 0)
             {
-                list = hostelContext.HotelOrders.Where(d => d.Hotel.AreaId == id && d.Status == 1 && d.OrderType == 1);
+                list = hostelContext.HotelOrders.Where(d => d.Hotel.AreaId == id && d.Status == 3 && d.OrderType == 1 && d.Start >= DateTime.Now.Date);
             }
             else
             {
                 //对于用户只展示酒店上线的订单
-                list = hostelContext.HotelOrders.Where(d => d.Status == 3 && d.OrderType == 1);
+                list = hostelContext.HotelOrders.Where(d => d.Status == 3 && d.OrderType == 1 && d.Start >= DateTime.Now.Date);
             }
             var res = list.Select(d => new HotelAreaOrderModel()
             {
@@ -61,7 +61,7 @@ namespace HostelManager.Controllers.Api
             foreach (var item in res)
             {
                 item.AppliedNum = hostelContext.PersonOrders.Where(d => d.OrderId == item.Id).Sum(d => d.ApplyNum) ?? 0;
-              
+
             }
             var result = res.GroupBy(d => new { d.HotelId, d.HotelName, d.AreaId, d.AreaName, d.HotelGUID }, (key, values) => new AreaWorkModel
             {
@@ -74,7 +74,7 @@ namespace HostelManager.Controllers.Api
                 Works = values.OrderByDescending(d => d.CreateTime)
             }).ToList();
 
-      
+
             return result;
         }
 

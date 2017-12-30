@@ -54,8 +54,8 @@ namespace HostelManager.Controllers.Api
                 Id = d.Id,
                 Mark = d.Mark,
                 Num = d.Num,
-                Min=d.Min??0,
-                Max=d.Max??0,
+                Min = d.Min ?? 0,
+                Max = d.Max ?? 0,
                 ScheduleName = d.Schedule.Name,
                 Start = d.Start.ToString("yyyy-MM-dd HH:mm:ss"),
                 CreateTime = d.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
@@ -73,14 +73,27 @@ namespace HostelManager.Controllers.Api
             }
             else
             {
+                var listType = hostelContext.HotelOrders.Where(d => d.Hotel.GUID == model.HotelGUID && d.OrderType == model.OrderType && d.End < DateTime.Now);
+                bool isStatus = false;
+                foreach (var item in listType)
+                {
+                    item.Status = 4;
+                    isStatus = true;
+                }
+                if (isStatus)
+                {
+                    hostelContext.SaveChanges();
+
+                }
                 foreach (var item in list)
                 {
                     //历史订单自动下线显示
                     if (DateTime.Parse(item.End) < DateTime.Now)
                     {
+                        item.AutoOffline = true;
                         item.Status = 4;
                     }
-                    item.AppliedNum= hostelContext.PersonOrders.Where(d => d.OrderId == item.Id ).Sum(d=>d.ApplyNum)??0;
+                    item.AppliedNum = hostelContext.PersonOrders.Where(d => d.OrderId == item.Id).Sum(d => d.ApplyNum) ?? 0;
                 }
             }
 
@@ -123,11 +136,11 @@ namespace HostelManager.Controllers.Api
                     HotelId = model.HotelId,
                     Num = model.Num,
                     Mark = model.Mark,
-                    Min= model.OrderType == 1 ? model.Min:0,
-                    Max= model.OrderType == 1 ? model.Max:0,
+                    Min = model.OrderType == 1 ? model.Min : 0,
+                    Max = model.OrderType == 1 ? model.Max : 0,
                     ScheduleId = model.ScheduleId,
                     Start = model.Start,
-                    OrderType=model.OrderType,
+                    OrderType = model.OrderType,
                     WorkTypeId = model.WorkTypeId
                 });
                 hostelContext.SaveChanges();

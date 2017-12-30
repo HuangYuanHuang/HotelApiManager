@@ -53,6 +53,7 @@ namespace HostelManager.Controllers.Api
 
             list.ForEach(d =>
             {
+                d.RoomNum = hostelContext.PersonOrders.FirstOrDefault(f => f.OrderId == d.OrderId)?.ApplyNum ?? 0;
                 d.EmployNum = hostelContext.PersonEmploys.Count(f => f.HotelOrderId == d.OrderId && f.Status == 1);
                 d.TotalApply = hostelContext.PersonOrders.Count(f => f.OrderId == d.OrderId);
             });
@@ -76,7 +77,7 @@ namespace HostelManager.Controllers.Api
                     HotelDepartment = d.Department.DepartmentName,
                     HotelWork = d.WorkType.Name,
                     Num = d.Num,
-
+                    Max = d.Max,
                     OrderType = d.OrderType,
                 }).FirstOrDefault();
 
@@ -103,15 +104,37 @@ namespace HostelManager.Controllers.Api
                         return new { state = false, message = "房间数不足", code = 4005 };
 
                     }
+                    var personOrder = hostelContext.PersonOrders.FirstOrDefault(d => d.OrderId == model.OrderId && d.PersonId == model.PersonId);
+                    if (personOrder == null)
+                    {
+                        personOrder = new PersonOrderModel()
+                        {
+                            OrderId = model.OrderId,
+                            PersonId = model.PersonId,
+                            Status = 1,
+                            ApplyNum = 0,
+                            Mark = model.Mark
+                        };
+                        hostelContext.PersonOrders.Add(personOrder);
+                    }
+                    personOrder.ApplyNum += model.Num;
+                    if (personOrder.ApplyNum > order.Max)
+                    {
+                        return new { state = false, message = "已超过单人申请上限", code = 4006 };
+                    }
                 }
-                hostelContext.PersonOrders.Add(new PersonOrderModel()
+                else
                 {
-                    OrderId = model.OrderId,
-                    PersonId = model.PersonId,
-                    Status = 1,
-                    ApplyNum = model.Num,
-                    Mark = model.Mark
-                });
+                    hostelContext.PersonOrders.Add(new PersonOrderModel()
+                    {
+                        OrderId = model.OrderId,
+                        PersonId = model.PersonId,
+                        Status = 1,
+                        ApplyNum = model.Num,
+                        Mark = model.Mark
+                    });
+                }
+
 
                 hostelContext.Messages.Add(new HostelModel.MessageModel()
                 {

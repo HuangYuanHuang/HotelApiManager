@@ -26,10 +26,14 @@ namespace HostelManager.Controllers.Api
                 Person = d.Person,
                 Status = d.Status,
                 ApplyTime = d.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                GUID = d.GUID
+                ApplyNum = d.ApplyNum ?? 0,
+                GUID = d.GUID,
+              
             }).ToList();
+
             foreach (var item in list)
             {
+
                 var count = hostelContext.PersonEmploys.Count(d => d.PersonId == item.Person.Id && d.Evaluate != null);
                 if (count > 0)
                 {

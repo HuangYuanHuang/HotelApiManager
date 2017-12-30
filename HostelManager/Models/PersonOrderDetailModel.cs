@@ -20,7 +20,7 @@ namespace HostelManager.Models
         public String ApplyTime { get; set; }
 
         public int EmployNum { get; set; }
-
+        public int RoomNum { get; set; }
         public int OrderId { get; set; }
         public object Order { get; set; }
 

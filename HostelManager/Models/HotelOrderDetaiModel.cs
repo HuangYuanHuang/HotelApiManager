@@ -37,6 +37,7 @@ namespace HostelManager.Models
 
         public string GUID { get; set; }
 
+        public bool AutoOffline { get; set; }
         public string CreateTime { get; set; }
 
         /// <summary>
