@@ -23,6 +23,6 @@ namespace HostelManager.Models
         public int RoomNum { get; set; }
         public int OrderId { get; set; }
         public object Order { get; set; }
-
+        public int POrderId { get; set; }
     }
 }

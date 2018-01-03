@@ -31,7 +31,7 @@ namespace HostelManager.Controllers.Api
                 ApplyTime = d.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
                 Status = d.Status,
                 OrderId = d.HotelOrder.Id,
-
+                POrderId=d.Id,
                 Order = new
                 {
                     Id = d.HotelOrder.Id,
