@@ -33,6 +33,8 @@ namespace HostelModel
 
         public DbSet<MessageModel> Messages { set; get; }
 
+        public DbSet<GrabOrderModel> GrabOrders { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseInternalServiceProvider(serviceProvider).UseMySql(@"Server=123.56.15.145;database=hostel_manager;uid=root;pwd=Password01!");
