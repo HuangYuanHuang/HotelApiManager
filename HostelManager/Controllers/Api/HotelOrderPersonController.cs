@@ -28,7 +28,7 @@ namespace HostelManager.Controllers.Api
                 ApplyTime = d.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
                 ApplyNum = d.ApplyNum ?? 0,
                 GUID = d.GUID,
-              
+                POrderId = d.Id,
             }).ToList();
 
             foreach (var item in list)

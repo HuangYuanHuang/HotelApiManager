@@ -21,6 +21,7 @@ namespace HostelManager.Models
         public string GUID { get; set; }
         public string StatusStr { get { return Status == 1 ? "待处理" : Status == 2 ? "预录用" : Status == 3 ? "录用" : "拒绝"; } set { } }
 
+        public int POrderId { get; set; }
 
         public string ApplyTime { get; set; }
 
