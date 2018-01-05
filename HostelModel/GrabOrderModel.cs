@@ -17,6 +17,7 @@ namespace HostelModel
 
         public int RommStatus { get; set; }
 
+        public int RoomIndex { get; set; }
 
     }
 }

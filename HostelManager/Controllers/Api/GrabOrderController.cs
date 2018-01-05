@@ -39,7 +39,8 @@ namespace HostelManager.Controllers.Api
                         PersonId = order.PersonId,
                         POrderId = order.Id,
                         RommStatus = 0,
-                        RoomID = $"{order.CreateTime.ToString("yyyyMMdd")}_{id}_{order.PersonId}_{i}"
+                        RoomID = $"{order.CreateTime.ToString("yyyyMMdd")}_{id}_{order.PersonId}_{i}",
+                        RoomIndex=i
                     });
 
                 }
@@ -56,7 +57,7 @@ namespace HostelManager.Controllers.Api
             }
 
 
-            return hostelContext.GrabOrders.Where(d => d.POrderId == order.Id).OrderBy(d => d.RoomID);
+            return hostelContext.GrabOrders.Where(d => d.POrderId == order.Id).OrderBy(d => d.RoomIndex);
         }
 
         /// <summary>
@@ -68,14 +69,21 @@ namespace HostelManager.Controllers.Api
         [HttpPost]
         public object Post([FromBody]GrabOrderModel model)
         {
+            var order = hostelContext.PersonOrders.FirstOrDefault(d => d.Id == model.POrderId);
+            if (order == null)
+            {
+                return new { state = false, message = "无效的订单", code = 40025 };
+            }
+            var grabMax = hostelContext.GrabOrders.Where(d => d.POrderId == model.POrderId).Max(d=>d.RoomIndex);
             hostelContext.GrabOrders.Add(new HostelModel.GrabOrderModel()
             {
 
-                OrderId = model.OrderId,
+                OrderId = order.Id,
                 PersonId = model.PersonId,
-                POrderId = model.Id,
+                POrderId = model.POrderId,
                 RommStatus = 0,
-                RoomID = model.RoomID
+                RoomID = $"{order.CreateTime.ToString("yyyyMMdd")}_{model.POrderId}_{order.PersonId}_{grabMax + 1}",
+                RoomIndex=grabMax+1,
             });
 
             try
