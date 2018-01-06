@@ -1,4 +1,5 @@
 ﻿using HostelModel;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,13 @@ namespace HostelManager.Models
         /// </summary>
         public int TotalApply { get; set; }
         public String ApplyTime { get; set; }
+
+        [JsonIgnore]
+        public int OrderType { get; set; }
+
+        public string GrabStatus { get; set; } = "工作中";
+        [JsonIgnore]
+        public DateTime Start { get; set; }
 
         public int EmployNum { get; set; }
         public int RoomNum { get; set; }

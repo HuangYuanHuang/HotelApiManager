@@ -29,11 +29,16 @@ namespace HostelManager.Controllers.Api
                 ApplyNum = d.ApplyNum ?? 0,
                 GUID = d.GUID,
                 POrderId = d.Id,
+                OrderType = d.HotelOrder.OrderType,
+                OrderStart = d.HotelOrder.Start,
             }).ToList();
 
             foreach (var item in list)
             {
-
+                if (item.OrderType == 1 && item.OrderStart < DateTime.Now.Date)
+                {
+                    item.IsOffline = true;
+                }
                 var count = hostelContext.PersonEmploys.Count(d => d.PersonId == item.Person.Id && d.Evaluate != null);
                 if (count > 0)
                 {

@@ -31,7 +31,9 @@ namespace HostelManager.Controllers.Api
                 ApplyTime = d.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"),
                 Status = d.Status,
                 OrderId = d.HotelOrder.Id,
-                POrderId=d.Id,
+                POrderId = d.Id,
+                OrderType = d.HotelOrder.OrderType ?? 0,
+                Start = d.HotelOrder.Start,
                 Order = new
                 {
                     Id = d.HotelOrder.Id,
@@ -49,13 +51,17 @@ namespace HostelManager.Controllers.Api
                     DepartMentName = d.HotelOrder.Department.DepartmentName,
 
                 }
-            }).ToList();
+            }).OrderByDescending(d => d.Start).ToList();
 
             list.ForEach(d =>
             {
                 d.RoomNum = hostelContext.PersonOrders.FirstOrDefault(f => f.OrderId == d.OrderId)?.ApplyNum ?? 0;
                 d.EmployNum = hostelContext.PersonEmploys.Count(f => f.HotelOrderId == d.OrderId && f.Status == 1);
                 d.TotalApply = hostelContext.PersonOrders.Count(f => f.OrderId == d.OrderId);
+                if (d.OrderType == 1 && d.Start < DateTime.Now.Date)
+                {
+                    d.GrabStatus = "已结束";
+                }
             });
             return list;
         }

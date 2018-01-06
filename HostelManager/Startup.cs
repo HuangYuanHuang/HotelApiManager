@@ -33,6 +33,8 @@ namespace HostelManager
             var jpushAppSettings = Configuration.GetSection("Jpush");
             services.Configure<JpushAppSettings>(jpushAppSettings);
             services.AddCors();
+            services.AddSignalR();
+
             services.AddDbContext<HostelContext>(x => x.UseMySql("Server=123.56.15.145;database=hostel_manager;uid=root;pwd=Password01!"));
 
             services.AddMvc().AddJsonOptions(op => op.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver());
@@ -66,10 +68,15 @@ namespace HostelManager
             }
 
             app.UseStaticFiles();
+            app.UseSignalR(routes =>
+            {
+                //routes.MapHub<>
+            });
             app.UseStaticFiles(new StaticFileOptions()
             {
                 FileProvider = new PhysicalFileProvider(
-                 Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot", "upload")), RequestPath = new PathString("/upload")
+                 Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot", "upload")),
+                RequestPath = new PathString("/upload")
             });
             app.UseStaticFiles(new StaticFileOptions()
             {
