@@ -32,15 +32,16 @@ namespace HostelManager.Models
         public string OrderGUID { get; set; }
 
         /// <summary>
-        /// 订单房间数
+        /// 抢单房间数
         /// </summary>
         public int RoomNum { get; set; }
 
+      
         public string Start { get; set; }
 
         /// <summary>
         /// 人员详情
         /// </summary>
-        public IEnumerable<PersonOrderDetail> POrders { get; set; }
+        public List<PersonOrderDetail> POrders { get; set; }
     }
 }

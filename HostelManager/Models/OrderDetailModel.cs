@@ -36,7 +36,10 @@ namespace HostelManager.Models
         /// 人员评分
         /// </summary>
         public float Evaluate { set; get; }
-
+        /// <summary>
+        /// 实际打扫房间数量
+        /// </summary>
+        public int GrabNum { get; set; }
         public ServicePersonModel Person { get; set; }
     }
 }

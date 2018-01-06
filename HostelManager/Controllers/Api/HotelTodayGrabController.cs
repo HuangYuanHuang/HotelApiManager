@@ -40,8 +40,10 @@ namespace HostelManager.Controllers.Api
                    
                     ApplyNum = d.ApplyNum ?? 0,
                     GUID = d.GUID,
+                    
                     POrderId = d.Id,
                 }).ToList();
+                item.POrders.ForEach(d => d.GrabNum = hostelContext.GrabOrders.Where(f => f.POrderId == d.POrderId).Count());
 
             }
             return todayOrders.GroupBy(d => d.DepartMentName, (key, values) => new HotelGrabGroupModel { DepartMentName = key, Orders = values });

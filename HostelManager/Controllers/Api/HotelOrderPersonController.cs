@@ -44,7 +44,8 @@ namespace HostelManager.Controllers.Api
                 {
                     item.Evaluate = (float)(hostelContext.PersonEmploys.Where(d => d.PersonId == item.Person.Id).Sum(d => d.Evaluate) * 1.0 / count);
                 }
-
+                item.GrabNum = hostelContext.GrabOrders.Where(f => f.POrderId == item.POrderId).Count();
+                
             }
             var result = new OrderDetailModel { TotalApply = list.Count, Persons = list };
             return result;
