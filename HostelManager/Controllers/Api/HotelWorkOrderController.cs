@@ -94,6 +94,7 @@ namespace HostelManager.Controllers.Api
                         item.Status = 4;
                     }
                     item.AppliedNum = hostelContext.PersonOrders.Where(d => d.OrderId == item.Id).Sum(d => d.ApplyNum) ?? 0;
+                    item.NewApply = hostelContext.PersonOrders.Count(d => d.OrderId == item.Id && d.CreateTime > pre);
                 }
             }
 

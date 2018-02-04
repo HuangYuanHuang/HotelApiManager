@@ -20,7 +20,7 @@ namespace HostelManager.Controllers.Api
         [HttpGet("{id}")]
         public IEnumerable<MessageModel> Get(string id)
         {
-            return hostelContext.Messages.Where(d => d.To == id).OrderByDescending(d => d.CreateTime);
+            return hostelContext.Messages.Where(d => d.To == id).OrderByDescending(d => d.CreateTime).Take(50);
         }
     }
 }
