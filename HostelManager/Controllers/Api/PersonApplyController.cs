@@ -62,6 +62,10 @@ namespace HostelManager.Controllers.Api
                 {
                     d.GrabStatus = "已结束";
                 }
+                else if (d.OrderType == 1 && d.Start > DateTime.Now.Date)
+                {
+                    d.GrabStatus = "待工作";
+                }
             });
             return list;
         }
